@@ -1,0 +1,7 @@
+.gitattributes
+.gitignore
+source
+coverage
+dist/__tests__
+jest.config.js
+tsconfig.json

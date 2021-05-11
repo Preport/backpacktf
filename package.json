@@ -1,0 +1,32 @@
+{
+  "name": "node-backpacktf",
+  "version": "0.1.0",
+  "description": "A wrapper for https://www.backpack.tf OAuth API.",
+  "main": "dist/index.js",
+  "dependencies": {
+    "got": "^11.8.2",
+    "simple-oauth2": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "@types/simple-oauth2": "^4.1.0",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.6",
+    "typescript": "^4.2.4"
+  },
+  "scripts": {
+    "prepublishOnly": "tsc",
+    "compile": "tsc",
+    "test": "jest --colors --coverage test"
+  },
+  "author": "Erdem Gez",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Preport/backpacktf.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Preport/backpacktf/issues"
+  },
+  "homepage": "https://github.com/Preport/backpacktf#readme"
+}
