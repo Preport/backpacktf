@@ -1,6 +1,6 @@
 {
   "name": "backpacktf-oauth",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A wrapper for https://www.backpack.tf OAuth API.",
   "main": "dist/index.js",
   "dependencies": {
