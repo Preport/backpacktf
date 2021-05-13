@@ -2,7 +2,7 @@ import got, { Headers, Options } from 'got';
 import { Response } from 'got/dist/source/core';
 import { EventEmitter } from 'events'
 import oauth, { AccessToken } from 'simple-oauth2'
-const backpack = "http://backpack.tf/api/oauth"
+const backpack = "https://backpack.tf/api/oauth"
 
 class BackpackTF extends EventEmitter {
     private token: AccessToken
@@ -29,8 +29,8 @@ class BackpackTF extends EventEmitter {
                 secret: client_secret
             },
             auth: {
-                tokenHost: "http://backpack.tf/",
-                tokenPath: "http://backpack.tf/oauth/access_token"
+                tokenHost: "https://backpack.tf/",
+                tokenPath: "https://backpack.tf/oauth/access_token"
             },
             options: {
                 authorizationMethod: 'body',
@@ -41,6 +41,7 @@ class BackpackTF extends EventEmitter {
     private async init(emit?: boolean) {
         this.token = await this.client.getToken({ scope: "read write" }, { json: true });
         if (emit) this.emit('ready');
+
     }
 
     private async fetchToken(force?: boolean) {
@@ -55,15 +56,36 @@ class BackpackTF extends EventEmitter {
     }
 
     getStatus() {
-        return this.__request('get', '/') as Promise<BackpackTF>;
+        return this.__request('get', '/') as Promise<BackpackTF.statusResponse>;
     }
-    async __request(type: "post" | "get" | "delete", uri: string, options?: Options, legacy?: boolean) {
+    async __request(type: "post" | "get" | "delete", uri: string, options?: Options, legacy?: boolean): Promise<any> {
         const token = legacy || (await this.fetchToken())?.token.access_token
-        return JSON.parse((await (got[type]((legacy ? "http://backpack.tf/api" : backpack) + uri, Object.assign({
-            headers: {
-                authorization: "Bearer " + token
-            },
-        }, options || {})) as Promise<Response<any>>)).body)
+        return new Promise((resolve: (any: any) => void, reject: ({ message: string }) => void) => {
+
+            (got[type]((legacy ? "http://backpack.tf/api" : backpack) + uri, Object.assign({
+                headers: {
+                    authorization: "Bearer " + token
+                },
+            }, options || {})) as Promise<Response<any>>)
+                .catch(err => {
+                    try {
+                        reject(JSON.parse(err.response.body))
+                    } catch {
+                        reject({ message: "Malformed response" });
+                    }
+                })
+                .then(resp => {
+                    try {
+                        //@ts-expect-error
+                        resolve(JSON.parse(resp.body))
+                    } catch {
+                        //@ts-expect-error
+                        resolve();
+                    }
+                })
+
+        })
+
     }
 }
 import Alerts from './modules/Alerts'
@@ -73,6 +95,27 @@ import Inventory from './modules/Inventory'
 import WebAPIUsers from './modules/WebAPIUsers';
 
 namespace BackpackTF {
+    export interface error {
+        message: string
+    }
+    export interface statusResponse {
+        user: {
+            id: string,
+            name: string,
+            avatar: string,
+            class: string,
+            style: string,
+            premium: boolean,
+            online: boolean
+        },
+        authMethod: 'token' | 'oauth' | 'session',
+        description: [string],
+        authMethods: {
+            [key in 'token' | 'oauth' | 'session']: {
+                desription: string
+            }
+        }
+    }
     export type classifiedApiResponse = {
         buy: {
             fold: boolean,
@@ -171,7 +214,8 @@ namespace BackpackTF {
                 currency: "metal" | "key",
                 min: number,
                 max: number
-            }
+            },
+            message?: string
         }
         export interface Create {
             item_name: string,
@@ -179,7 +223,7 @@ namespace BackpackTF {
             currency: "metal" | "key",
             min: number,
             max: number,
-            blanket: string
+            blanket?: string
         }
     }
 
