@@ -2,7 +2,6 @@ import got, { Headers, Options } from 'got';
 import { Response } from 'got/dist/source/core';
 import { EventEmitter } from 'events'
 import oauth, { AccessToken } from 'simple-oauth2'
-
 const backpack = "http://backpack.tf/api/oauth"
 
 class BackpackTF extends EventEmitter {
@@ -56,7 +55,7 @@ class BackpackTF extends EventEmitter {
     }
 
     getStatus() {
-        return this.__request('get', '/') as Promise<BackpackTF.StatusResponse>;
+        return this.__request('get', '/') as Promise<BackpackTF>;
     }
     async __request(type: "post" | "get" | "delete", uri: string, options?: Options, legacy?: boolean) {
         const token = legacy || (await this.fetchToken())?.token.access_token
@@ -132,7 +131,6 @@ namespace BackpackTF {
             float_value: number
         }[]
     }
-
     export type classifiedItemSell = classifiedItemBuy & {
         id: number,
         inventory: number,
@@ -142,22 +140,124 @@ namespace BackpackTF {
         quantity: number
     }
 
-    export interface StatusResponse {
-        user: {
-            id: string,
-            name: string,
-            avatar: string,
-            class: string,
-            style: string,
-            premium: boolean,
-            online: boolean
-        },
-        authMethod: string,
-        description: string[],
-        authMethods: {
-            [key in "token" | "session" | "oauth"]: {
-                description: string
+    export namespace Agent {
+        export interface PulseResponse extends OnlyStatus {
+            current_time?: number,
+            expire_at?: number,
+            client?: string
+        }
+        export interface OnlyStatus {
+            status: "active" | "inactive"
+        }
+    }
+
+    export namespace Alerts {
+        export interface Response {
+            results: Alert[],
+            cursor: {
+                skip: number,
+                limit: number,
+                total: number
             }
+        }
+
+        export interface Alert {
+            id: string,
+            item_name: string,
+            intent: "sell" | "buy",
+            appid: number,
+            steamid: string,
+            price: {
+                currency: "metal" | "key",
+                min: number,
+                max: number
+            }
+        }
+        export interface Create {
+            item_name: string,
+            intent: "sell" | "buy",
+            currency: "metal" | "key",
+            min: number,
+            max: number,
+            blanket: string
+        }
+    }
+
+    export namespace Inventory {
+        export interface Values {
+            market_value: number,
+            value: number
+        }
+        export interface Status {
+            current_time: number,
+            last_update: number,
+            timestamp: number,
+            next_update: number,
+            refresh_interval: number
+        }
+    }
+
+    export namespace Notifications {
+        export interface Notification {
+            id: string,
+            steamid: string,
+            lastMoved: number,
+            elementId: string,
+            userId: string,
+            type: number,
+            bundle: {
+                listing?: BackpackTF.classifiedItemBuy | BackpackTF.classifiedItemSell
+            }
+            contents: {
+                subject: string,
+                message: string
+                url: string
+            }
+        }
+        export interface Response {
+            results: Notification[],
+            cursor: {
+                skip: number,
+                limit: number,
+                total: number
+            }
+        }
+        export interface MarkResponse {
+            modified: number
+        }
+    }
+
+    export namespace WebAPIUsers {
+        export interface UserResponse {
+            response: {
+                success: 1 | 0,
+                current_time: number,
+                players: {
+                    [steamid64: string]: {
+                        steamid: string,
+                        success: 1 | 0,
+                        backpack_value: {
+                            [appid: string]: number
+                        },
+                        backpack_update: {
+                            [appid: string]: number
+                        },
+                        name: string,
+                        backpack_tf_trust: {
+                            for: number,
+                            against: number
+                        }
+                    }
+                }
+            }
+        }
+        export interface ImpersonatedResponse {
+            results: {
+                steamid: string,
+                personaname: string,
+                avatar: string
+            }[],
+            total: number
         }
     }
 }

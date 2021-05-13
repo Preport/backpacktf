@@ -4,13 +4,12 @@ if (!(process.env.id && process.env.secret)) {
     console.error("Environment variables are not set")
     process.exit(1)
 }
-
+jest.setTimeout(20000)
 var bp: backpack;
 test('Initialize BackpackTF connection', async (done) => {
     bp = new backpack(process.env.id, process.env.secret);
     bp.on('ready', done);
 })
-
 test('Base Functions', async () => {
     expect(await bp.getStatus()).toHaveProperty('user.id');
 })

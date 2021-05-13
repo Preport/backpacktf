@@ -1,6 +1,6 @@
 import BackpackTF from '../index'
 
-class Agent {
+export default class Agent {
     backpacktf: BackpackTF
     constructor(bp: BackpackTF) {
         this.backpacktf = bp;
@@ -9,31 +9,19 @@ class Agent {
     * @returns Promise<Agent.PulseResponse>
     */
     pulse() {
-        return this.backpacktf.__request("post", `/agent/pulse`) as Promise<Agent.PulseResponse>
+        return this.backpacktf.__request("post", `/agent/pulse`) as Promise<BackpackTF.Agent.PulseResponse>
     }
 
     /**
     * @returns Promise<Agent.OnlyStatus>
     */
     stop() {
-        return this.backpacktf.__request("post", `/agent/stop`) as Promise<Agent.OnlyStatus>
+        return this.backpacktf.__request("post", `/agent/stop`) as Promise<BackpackTF.Agent.OnlyStatus>
     }
     /**
     * @returns Promise<Agent.PulseResponse>
     */
     status() {
-        return this.backpacktf.__request("post", `/agent/status`) as Promise<Agent.PulseResponse>
+        return this.backpacktf.__request("post", `/agent/status`) as Promise<BackpackTF.Agent.PulseResponse>
     }
 }
-
-namespace Agent {
-    export interface PulseResponse extends OnlyStatus {
-        current_time?: number,
-        expire_at?: number,
-        client?: string
-    }
-    export interface OnlyStatus {
-        status: "active" | "inactive"
-    }
-}
-export = Agent;
