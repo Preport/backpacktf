@@ -10,26 +10,30 @@ export default class Alerts {
     * @returns Promise<Alerts.Alert>
     */
     getAlert(id: string) {
-        return this.backpacktf.__request("get", `/classifieds/alerts?${id}`) as Promise<BackpackTF.Alerts.Alert>
+        return this.backpacktf.__request("get", `/classifieds/alerts/${id}`) as Promise<BackpackTF.Alerts.Alert>
     }
+
+    /*
     /**
-    * @deprecated End-point currently does not work.
+    * @deprecated End-point currently does not work. Use one with the 'item' and 'intent' instead
     * @param item ID of the alert to delete.
     * @returns Promise<Unknown>
     *//**
-    * @deprecated End-point currently does not work.
+    */
+
+    /**
     * @param item Name of the item we are trying to delete.
     * @param intent Either "buy" or "sell".
     * @returns Promise<Unknown>
     */
-    deleteAlert(item: string, intent?: "buy" | "sell") {
-        const query = []
-        if (intent) {
-            query.push(item ? "item_name=" + item : '');
-            query.push(intent ? "intent=" + intent : '');
-            item = query.join('&')
-        }
-        return this.backpacktf.__request("delete", `/classifieds/alerts?${item}`) as Promise<any>
+    deleteAlert(item: string, intent: "buy" | "sell") {
+        // const query = []
+        // if (intent) {
+        // query.push(item ? "item_name=" + item : '');
+        // query.push(intent ? "intent=" + intent : '');
+        // item = '?' + query.join('&')
+        // } else item = '/' + item;
+        return this.backpacktf.__request("delete", `/classifieds/alerts?item_name=${item}&intent=${intent}`) as Promise<void>
     }
     /**
     * @param skip An integer amount of alerts to skip.
@@ -42,9 +46,9 @@ export default class Alerts {
 
     /**
     * @param alert Alert to create.
-    * @returns Promise<{}>
+    * @returns Promise<Alerts.Alert>
     */
     createAlert(alert: BackpackTF.Alerts.Create) {
-        return this.backpacktf.__request("post", `/classifieds/alerts?${Object.keys(alert).map(prop => prop + '=' + alert[prop]).join('&')}`) as Promise<{}>;
+        return this.backpacktf.__request("post", `/classifieds/alerts?${Object.keys(alert).map(prop => prop + '=' + alert[prop]).join('&')}`) as Promise<BackpackTF.Alerts.Alert>;
     }
 }
