@@ -17,7 +17,7 @@
   "scripts": {
     "prepublishOnly": "tsc",
     "compile": "tsc",
-    "test": "jest --colors --coverage test"
+    "test": "jest --colors --coverage test --runInBand"
   },
   "author": "Erdem Gez",
   "license": "MIT",
