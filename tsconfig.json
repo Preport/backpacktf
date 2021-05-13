@@ -17,5 +17,5 @@
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true
     },
-    "exclude": ["./source/__tests__"]
+    "exclude": ["./source/__tests__","./dist"]
 }
