@@ -168,7 +168,7 @@ namespace BackpackTF {
         defindex: number,
         name: string,
         quality: number,
-        attributes: {
+        attributes?: {
             defindex: number,
             value?: number,
             float_value: number
@@ -176,11 +176,30 @@ namespace BackpackTF {
     }
     export type classifiedItemSell = classifiedItemBuy & {
         id: number,
-        inventory: number,
-        level: number,
-        origin: number,
         original_id: number,
-        quantity: number
+        level: number,
+        inventory: number,
+        quantity: number,
+        origin: number,
+        style?: number
+    }
+
+    export type Listing = {
+        id: string,
+        steamid: string,
+        item: classifiedItemBuy | classifiedItemSell,
+        appid: number,
+        currencies: {
+            metal?: number,
+            keys?: number,
+        },
+        offers: 0 | 1,
+        buyout: 0 | 1,
+        details: string,
+        created: number,
+        bump: number,
+        intent: "buy" | "sell",
+        automatic: 0 | 1
     }
 
     export namespace Agent {
@@ -220,10 +239,10 @@ namespace BackpackTF {
         export interface Create {
             item_name: string,
             intent: "sell" | "buy",
-            currency: "metal" | "key",
-            min: number,
-            max: number,
-            blanket?: string
+            currency?: "metal" | "key",
+            min?: number,
+            max?: number,
+            blanket?: number
         }
     }
 
@@ -250,7 +269,7 @@ namespace BackpackTF {
             userId: string,
             type: number,
             bundle: {
-                listing?: BackpackTF.classifiedItemBuy | BackpackTF.classifiedItemSell
+                listing?: Listing
             }
             contents: {
                 subject: string,
