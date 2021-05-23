@@ -13,18 +13,10 @@ export default class Alerts {
         return this.backpacktf.__request("get", `/classifieds/alerts/${id}`) as Promise<BackpackTF.Alerts.Alert>
     }
 
-    /*
-    /**
-    * @deprecated End-point currently does not work. Use one with the 'item' and 'intent' instead
-    * @param item ID of the alert to delete.
-    * @returns Promise<Unknown>
-    *//**
-    */
-
     /**
     * @param item Name of the item we are trying to delete.
     * @param intent Either "buy" or "sell".
-    * @returns Promise<Unknown>
+    * @returns Promise<void>
     */
     deleteAlert(item: string, intent: "buy" | "sell") {
         // const query = []
