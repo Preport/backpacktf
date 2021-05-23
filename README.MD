@@ -9,7 +9,7 @@ Breaking changes may occur Until v1
 ### Constructor
 
 ```ts
-    import backpacktf from 'node-backpacktf';
+    import backpacktf from 'backpacktf-oauth';
 
     const bp = new backpacktf('***client_id***', '***client_secret***');
 
@@ -24,8 +24,6 @@ Breaking changes may occur Until v1
     bp.getStatus();
 ```
 ⚠️ All Methods Return their shown values wrapped by a `Promise`. ⚠️
-
-README.MD Looks Like Shit ? Yeah If You know Markdown please change it it's so bad :(
     
 ## Classes
 
