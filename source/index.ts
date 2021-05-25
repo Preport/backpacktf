@@ -60,7 +60,7 @@ class BackpackTF extends EventEmitter {
     }
     async __request(type: "post" | "get" | "delete", uri: string, options?: Options, legacy?: boolean): Promise<any> {
         const token = legacy || (await this.fetchToken())?.token.access_token
-        return new Promise((resolve: (any: any) => void, reject: ({ message: string }) => void) => {
+        return new Promise((resolve: (any: any) => void, reject: ({ status: number, message: string }) => void) => {
 
             (got[type]((legacy ? "http://backpack.tf/api" : backpack) + uri, Object.assign({
                 headers: {
@@ -68,16 +68,11 @@ class BackpackTF extends EventEmitter {
                 },
             }, options || {})) as Promise<Response<any>>)
                 .catch(err => {
-                    try {
-                        reject(JSON.parse(err.response.body))
-                    } catch {
-                        reject({ message: "Malformed response" });
-                    }
+                    reject(err)
                 })
                 .then(resp => {
                     try {
-                        //@ts-expect-error
-                        resolve(JSON.parse(resp.body))
+                        resolve(JSON.parse((resp as Response<any>).body))
                     } catch {
                         //@ts-expect-error
                         resolve();
@@ -172,6 +167,15 @@ namespace BackpackTF {
             defindex: number,
             value?: number,
             float_value: number
+            is_output?: boolean,
+            quantity?: number,
+            quality?: number,
+            itemdef?: number,
+            attributes?: {
+                defindex: number,
+                value?: number,
+                float_value: number
+            }
         }[]
     }
     export type classifiedItemSell = classifiedItemBuy & {
