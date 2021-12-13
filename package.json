@@ -4,7 +4,7 @@
   "description": "A wrapper for https://www.backpack.tf OAuth API.",
   "main": "dist/index.js",
   "dependencies": {
-    "got": "^11.8.2",
+    "got": "^12.0.0",
     "simple-oauth2": "^4.2.0"
   },
   "devDependencies": {
