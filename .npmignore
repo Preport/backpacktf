@@ -1,7 +1,10 @@
 .gitattributes
 .gitignore
+.github
+.prettierc
 source
 coverage
 dist/__tests__
 jest.config.js
+*.js.map
 tsconfig.json
