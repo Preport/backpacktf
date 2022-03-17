@@ -1,4 +1,4 @@
-import got, { OptionsOfUnknownResponseBody, Response } from 'got';
+import got, { Got, OptionsOfUnknownResponseBody } from 'got';
 
 import { EventEmitter } from 'events';
 import oauth, { AccessToken } from 'simple-oauth2';
@@ -13,6 +13,7 @@ class BackpackTF extends EventEmitter {
     Agent: Agent;
     Inventory: Inventory;
     WebApiUsers: WebAPIUsers;
+    Classifieds: Classifieds;
 
     constructor(client_id: string, client_secret: string) {
         super();
@@ -22,6 +23,7 @@ class BackpackTF extends EventEmitter {
         this.Agent = new Agent(this);
         this.Inventory = new Inventory(this);
         this.WebApiUsers = new WebAPIUsers(this);
+        this.Classifieds = new Classifieds(this);
 
         this.client = new oauth.ClientCredentials({
             client: {
@@ -64,8 +66,8 @@ class BackpackTF extends EventEmitter {
         legacy?: boolean
     ): Promise<any> {
         const token = legacy || (await this.fetchToken())?.token.access_token;
-        return new Promise((resolve: (any: any) => void, reject: ({ status: number, message: string }) => void) => {
-            (
+        return new Promise<ReturnType<typeof got.get>>(
+            (resolve: (any: any) => void, reject: ({ status: number, message: string }) => void) => {
                 got[type](
                     (legacy ? 'http://backpack.tf/api' : backpack) + uri,
                     Object.assign(
@@ -76,20 +78,20 @@ class BackpackTF extends EventEmitter {
                         },
                         options || {}
                     )
-                ) as Promise<Response<any>>
-            )
-                .catch(err => {
-                    reject(err);
-                })
-                .then(resp => {
-                    try {
-                        resolve(JSON.parse((resp as Response<any>).body));
-                    } catch {
-                        //@ts-expect-error
-                        resolve();
-                    }
-                });
-        });
+                )
+                    .catch(err => {
+                        reject(err);
+                    })
+                    .then(resp => {
+                        try {
+                            resolve(JSON.parse((resp as any).body));
+                        } catch {
+                            //@ts-expect-error
+                            resolve();
+                        }
+                    });
+            }
+        );
     }
 }
 import Alerts from './modules/Alerts';
@@ -97,6 +99,7 @@ import Agent from './modules/Agent';
 import Notifications from './modules/Notifications';
 import Inventory from './modules/Inventory';
 import WebAPIUsers from './modules/WebAPIUsers';
+import Classifieds from './modules/Classifieds';
 
 namespace BackpackTF {
     export interface error {

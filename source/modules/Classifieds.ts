@@ -4,7 +4,7 @@ import schema from '@tf2autobot/tf2-schema';
 import { Killstreak, Sheen, Paints } from './Enums';
 
 export default class Classifieds {
-    backpacktf: BackpackTF;
+    private readonly backpacktf: BackpackTF;
     constructor(bp: BackpackTF) {
         this.backpacktf = bp;
     }
@@ -30,29 +30,33 @@ export default class Classifieds {
                 ? schemaOrItemBaseName
                 : schemaOrItemBaseName.getName({ defindex: skObj.defindex, quality: 6 }, false);
 
+        const item = {
+            baseName: itemName,
+            quality: { id: skObj.quality },
+            australium: skObj.australium,
+            craftable: skObj.craftable,
+            elevatedQuality: skObj.quality2 ? { id: skObj.quality2 } : null,
+            killstreak: skObj.killstreak
+                ? {
+                      tier: skObj.killstreak,
+                      killstreaker: Killstreak[extras.killstreak.ks],
+                      sheen: Sheen[extras.killstreak.sheen]
+                  }
+                : null,
+            paint: skObj.paint ? { id: Paints['p' + skObj.paint] } : null,
+            particle: skObj.effect ? { id: skObj.effect } : null,
+            festivized: skObj.festive,
+            crateSeries: skObj.crateseries,
+            tradable: skObj.tradable,
+            quantity: 1
+        };
+        Object.keys(item).forEach(key => {
+            if (item[key] === null) delete item[key];
+        });
         return {
             currencies: price,
             details,
-            item: {
-                baseName: itemName,
-                quality: { id: skObj.quality },
-                australium: skObj.australium,
-                craftable: skObj.craftable,
-                elevatedQuality: skObj.quality2 ? { id: skObj.quality2 } : null,
-                killstreak: skObj.killstreak
-                    ? {
-                          tier: skObj.killstreak,
-                          killstreaker: Killstreak[extras.killstreak.ks],
-                          sheen: Sheen[extras.killstreak.sheen]
-                      }
-                    : null,
-                paint: { id: Paints['p' + skObj.paint] },
-                particle: { id: skObj.effect },
-                festivized: skObj.festive,
-                crateSeries: skObj.crateseries,
-                tradable: skObj.tradable,
-                quantity: 1
-            }
+            item
         } as BackpackTF.Classifieds.v2CreateBuyListing;
     }
 
@@ -260,7 +264,7 @@ export default class Classifieds {
      * Move Listing to the archive
      * @returns Promise<BackpackTF.Classifieds.v2Listing>
      */
-    archiveListing(listingID: string, data: Partial<BackpackTF.Classifieds.v2CreateBuyListing>) {
+    archiveListing(listingID: string) {
         return this.backpacktf.__request(
             'post',
             `/v2/classifieds/listings/${listingID}/archive`
@@ -271,7 +275,7 @@ export default class Classifieds {
      * Promote this listing
      * @returns Promise<BackpackTF.Classifieds.v2Listing>
      */
-    promoteListing(listingID: string, data: Partial<BackpackTF.Classifieds.v2CreateBuyListing>) {
+    promoteListing(listingID: string) {
         return this.backpacktf.__request(
             'post',
             `/v2/classifieds/listings/${listingID}/promote`
@@ -282,7 +286,7 @@ export default class Classifieds {
      * Demote this listing
      * @returns Promise<BackpackTF.Classifieds.v2Listing>
      */
-    demoteListing(listingID: string, data: Partial<BackpackTF.Classifieds.v2CreateBuyListing>) {
+    demoteListing(listingID: string) {
         return this.backpacktf.__request(
             'post',
             `/v2/classifieds/listings/${listingID}/demote`
