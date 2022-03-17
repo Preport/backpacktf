@@ -1,27 +1,27 @@
-import BackpackTF from '../index'
+import BackpackTF from '../index';
 
 export default class Agent {
-    backpacktf: BackpackTF
+    private readonly backpacktf: BackpackTF;
     constructor(bp: BackpackTF) {
         this.backpacktf = bp;
     }
     /**
-    * @returns Promise<Agent.PulseResponse>
-    */
+     * @returns Promise<Agent.PulseResponse>
+     */
     pulse() {
-        return this.backpacktf.__request("post", `/agent/pulse`) as Promise<BackpackTF.Agent.PulseResponse>
+        return this.backpacktf.__request('post', `/agent/pulse`) as Promise<BackpackTF.Agent.PulseResponse>;
     }
 
     /**
-    * @returns Promise<Agent.OnlyStatus>
-    */
+     * @returns Promise<Agent.OnlyStatus>
+     */
     stop() {
-        return this.backpacktf.__request("post", `/agent/stop`) as Promise<BackpackTF.Agent.OnlyStatus>
+        return this.backpacktf.__request('post', `/agent/stop`) as Promise<BackpackTF.Agent.OnlyStatus>;
     }
     /**
-    * @returns Promise<Agent.PulseResponse>
-    */
+     * @returns Promise<Agent.PulseResponse>
+     */
     status() {
-        return this.backpacktf.__request("post", `/agent/status`) as Promise<BackpackTF.Agent.PulseResponse>
+        return this.backpacktf.__request('post', `/agent/status`) as Promise<BackpackTF.Agent.PulseResponse>;
     }
 }
