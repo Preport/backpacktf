@@ -6,7 +6,7 @@
     "dependencies": {
         "@tf2autobot/tf2-schema": "^2.4.1",
         "@tf2autobot/tf2-sku": "^2.0.3",
-        "got": "^11.8.3",
+        "got": "^12.0.2",
         "simple-oauth2": "^4.2.0"
     },
     "devDependencies": {
