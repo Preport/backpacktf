@@ -1,14 +1,14 @@
 {
     "compilerOptions": {
         "target": "ES2019",
-        "module": "commonjs",
+        "module": "CommonJS",
         "allowJs": false,
         "checkJs": false,
         "outDir": "./dist/",
         "rootDir": "./source/",
         "removeComments": false,
         "declaration": true,
-        "sourceMap": false,
+        "sourceMap": true,
         "strict": true,
         "noImplicitAny": false,
         "strictNullChecks": false,
@@ -17,5 +17,5 @@
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true
     },
-    "exclude": ["./source/__tests__","./dist"]
+    "exclude": ["./source/__tests__", "./dist"]
 }
