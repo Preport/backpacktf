@@ -1,32 +1,34 @@
 {
-  "name": "backpacktf-oauth",
-  "version": "0.5.1",
-  "description": "A wrapper for https://www.backpack.tf OAuth API.",
-  "main": "dist/index.js",
-  "dependencies": {
-    "got": "^12.0.1",
-    "simple-oauth2": "^4.2.0"
-  },
-  "devDependencies": {
-    "@types/jest": "^27.4.1",
-    "@types/simple-oauth2": "^4.1.0",
-    "jest": "^26.6.3",
-    "ts-jest": "^26.5.6",
-    "typescript": "^4.2.4"
-  },
-  "scripts": {
-    "prepublishOnly": "tsc",
-    "compile": "tsc",
-    "test": "jest --colors --coverage test --runInBand"
-  },
-  "author": "Erdem Gez",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Preport/backpacktf.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Preport/backpacktf/issues"
-  },
-  "homepage": "https://github.com/Preport/backpacktf#readme"
+    "name": "backpacktf-oauth",
+    "version": "0.5.1",
+    "description": "A wrapper for https://www.backpack.tf OAuth API.",
+    "main": "dist/index.js",
+    "dependencies": {
+        "@tf2autobot/tf2-schema": "^2.4.1",
+        "@tf2autobot/tf2-sku": "^2.0.3",
+        "got": "^11.8.3",
+        "simple-oauth2": "^4.2.0"
+    },
+    "devDependencies": {
+        "@types/jest": "^27.4.1",
+        "@types/simple-oauth2": "^4.1.0",
+        "jest": "^26.6.3",
+        "ts-jest": "^26.5.6",
+        "typescript": "^4.6.2"
+    },
+    "scripts": {
+        "prepublishOnly": "tsc",
+        "compile": "tsc",
+        "test": "jest --colors --coverage test"
+    },
+    "author": "Erdem Gez",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Preport/backpacktf.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Preport/backpacktf/issues"
+    },
+    "homepage": "https://github.com/Preport/backpacktf#readme"
 }
