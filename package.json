@@ -7,7 +7,7 @@
         "@tf2autobot/tf2-schema": "^2.4.1",
         "@tf2autobot/tf2-sku": "^2.0.3",
         "got": "^11.8.3",
-        "simple-oauth2": "^4.2.0"
+        "simple-oauth2": "^5.0.0"
     },
     "devDependencies": {
         "@types/jest": "^27.4.1",
