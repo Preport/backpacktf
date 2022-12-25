@@ -335,11 +335,11 @@ namespace BackpackTF {
                     long: string;
                 };
             };
-            quality: {
-                id: number;
-                name: string;
-                color: string;
-            };
+            quality: v2Entity;
+            rarity: v2Entity;
+            particle?: v2Entity;
+            paint?: v2Entity;
+            elevatedQuality: v2Entity;
             quantity: number;
             recipe?: {
                 inputItems: string[];
@@ -399,7 +399,11 @@ namespace BackpackTF {
                 attributes: attribute[];
             };
         };
-
+        export interface v2Entity {
+            name: string;
+            id: number;
+            color: string;
+        }
         export interface v2CreateBuyListing {
             item: v2BuyItem;
             details: string;
