@@ -4,7 +4,7 @@
     "description": "A wrapper for https://www.backpack.tf OAuth API.",
     "main": "dist/index.js",
     "dependencies": {
-        "@tf2autobot/tf2-schema": "^2.4.1",
+        "@tf2autobot/tf2-schema": "^4.2.8",
         "@tf2autobot/tf2-sku": "^2.0.3",
         "got": "^11.8.3",
         "simple-oauth2": "^4.2.0"
