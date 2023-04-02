@@ -57,7 +57,7 @@ export default class Classifieds {
             currencies: price,
             details,
             item
-        } as BackpackTF.Classifieds.v2CreateBuyListing;
+        } as BackpackTF.Classifiedsv2.v2CreateBuyListing;
     }
 
     /**
@@ -69,7 +69,7 @@ export default class Classifieds {
         return this.backpacktf.__request(
             'get',
             `/classifieds/search/v1?` + query
-        ) as Promise<BackpackTF.classifiedApiResponse>;
+        ) as Promise<BackpackTF.Classifiedsv1.classifiedApiResponse>;
     }
 
     /**
@@ -80,7 +80,7 @@ export default class Classifieds {
         return this.backpacktf.__request(
             'get',
             `classifieds/listings/snapshot?appid=440&sku=${encodeURIComponent(itemName)}`
-        ) as Promise<BackpackTF.Classifieds.Snapshot>;
+        ) as Promise<BackpackTF.Classifiedsv1.Snapshot>;
     }
 
     /**
@@ -91,7 +91,7 @@ export default class Classifieds {
         return this.backpacktf.__request(
             'get',
             `/v2/classifieds/archive?skip=${skip || 0}&limit=${limit || 100}`
-        ) as Promise<BackpackTF.Classifieds.GetListingsResponse>;
+        ) as Promise<BackpackTF.Classifiedsv2.GetListingsResponse>;
     }
 
     /**
@@ -110,7 +110,7 @@ export default class Classifieds {
                       }
                   }
                 : null
-        ) as Promise<BackpackTF.Classifieds.DeleteListingsResponse>;
+        ) as Promise<BackpackTF.Classifiedsv2.DeleteListingsResponse>;
     }
 
     /**
@@ -121,7 +121,7 @@ export default class Classifieds {
         return this.backpacktf.__request(
             'get',
             `/v2/classifieds/archive/${listingID}`
-        ) as Promise<BackpackTF.Classifieds.v2Listing>;
+        ) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
     }
 
     /**
@@ -136,7 +136,7 @@ export default class Classifieds {
      * Update one archived listing
      * @returns Promise<unknown>
      */
-    updateArchivedListing(listingID: string, data: Partial<BackpackTF.Classifieds.v2CreateBuyListing>) {
+    updateArchivedListing(listingID: string, data: Partial<BackpackTF.Classifiedsv2.v2CreateBuyListing>) {
         return this.backpacktf.__request('patch', `/v2/classifieds/archive/${listingID}`, {
             json: data
         }) as Promise<unknown>;
@@ -146,7 +146,7 @@ export default class Classifieds {
      * An Alias for updateArchivedListing
      * @returns Promise<unknown>
      */
-    patchArchivedListing(listingID: string, data: Partial<BackpackTF.Classifieds.v2CreateBuyListing>) {
+    patchArchivedListing(listingID: string, data: Partial<BackpackTF.Classifiedsv2.v2CreateBuyListing>) {
         return this.updateArchivedListing(listingID, data);
     }
 
@@ -158,7 +158,7 @@ export default class Classifieds {
         return this.backpacktf.__request(
             'post',
             `/v2/classifieds/archive/${listingID}/publish`
-        ) as Promise<BackpackTF.Classifieds.v2Listing>;
+        ) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
     }
 
     /**
@@ -169,17 +169,17 @@ export default class Classifieds {
         return this.backpacktf.__request(
             'get',
             `/v2/classifieds/listings?skip=${skip || 0}&limit=${limit || 100}`
-        ) as Promise<BackpackTF.Classifieds.GetListingsResponse>;
+        ) as Promise<BackpackTF.Classifiedsv2.GetListingsResponse>;
     }
 
     /**
      * Create one listing
      * @returns Promise<BackpackTF.Classifieds.v2Listing>
      */
-    createListing(data: BackpackTF.Classifieds.v2CreateBuyListing | BackpackTF.Classifieds.v2CreateSellListing) {
+    createListing(data: BackpackTF.Classifiedsv2.v2CreateBuyListing | BackpackTF.Classifiedsv2.v2CreateSellListing) {
         return this.backpacktf.__request('post', `/v2/classifieds/listings`, {
             json: data
-        }) as Promise<BackpackTF.Classifieds.v2Listing>;
+        }) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
     }
 
     /**
@@ -198,7 +198,7 @@ export default class Classifieds {
                       }
                   }
                 : null
-        ) as Promise<BackpackTF.Classifieds.DeleteListingsResponse>;
+        ) as Promise<BackpackTF.Classifiedsv2.DeleteListingsResponse>;
     }
 
     /**
@@ -209,7 +209,7 @@ export default class Classifieds {
         return this.backpacktf.__request(
             'get',
             '/v2/classifieds/listings/batch'
-        ) as Promise<BackpackTF.Classifieds.GetBatchResponse>;
+        ) as Promise<BackpackTF.Classifiedsv2.GetBatchResponse>;
     }
 
     /**
@@ -217,11 +217,11 @@ export default class Classifieds {
      * @returns Promise<BackpackTF.Classifieds.v2Listing[]>
      */
     createBatchListings(
-        listings: (BackpackTF.Classifieds.v2CreateBuyListing | BackpackTF.Classifieds.v2CreateSellListing)[]
+        listings: (BackpackTF.Classifiedsv2.v2CreateBuyListing | BackpackTF.Classifiedsv2.v2CreateSellListing)[]
     ) {
         return this.backpacktf.__request('post', '/v2/classifieds/listings/batch', {
             json: listings
-        }) as Promise<BackpackTF.Classifieds.v2Listing[]>;
+        }) as Promise<BackpackTF.Classifiedsv2.v2Listing[]>;
     }
 
     /**
@@ -231,7 +231,7 @@ export default class Classifieds {
         return this.backpacktf.__request(
             'get',
             `/v2/classifieds/listings/${listingID}`
-        ) as Promise<BackpackTF.Classifieds.v2Listing>;
+        ) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
     }
 
     /**
@@ -246,18 +246,18 @@ export default class Classifieds {
      * Update one listing
      * @returns Promise<unknown>
      */
-    updateListing(listingID: string, data: Partial<BackpackTF.Classifieds.v2CreateBuyListing>) {
+    updateListing(listingID: string, data: Partial<BackpackTF.Classifiedsv2.v2CreateBuyListing>) {
         return this.backpacktf.__request('patch', `/v2/classifieds/listings/${listingID}`, {
             json: data
-        }) as Promise<BackpackTF.Classifieds.v2Listing>;
+        }) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
     }
 
     /**
      * An Alias for updateListing
      * @returns Promise<unknown>
      */
-    patchListing(listingID: string, data: Partial<BackpackTF.Classifieds.v2CreateBuyListing>) {
-        return this.updateListing(listingID, data) as Promise<BackpackTF.Classifieds.v2Listing>;
+    patchListing(listingID: string, data: Partial<BackpackTF.Classifiedsv2.v2CreateBuyListing>) {
+        return this.updateListing(listingID, data) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
     }
 
     /**
@@ -268,7 +268,7 @@ export default class Classifieds {
         return this.backpacktf.__request(
             'post',
             `/v2/classifieds/listings/${listingID}/archive`
-        ) as Promise<BackpackTF.Classifieds.v2Listing>;
+        ) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
     }
 
     /**
@@ -279,7 +279,7 @@ export default class Classifieds {
         return this.backpacktf.__request(
             'post',
             `/v2/classifieds/listings/${listingID}/promote`
-        ) as Promise<BackpackTF.Classifieds.v2Listing>;
+        ) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
     }
 
     /**
@@ -290,6 +290,6 @@ export default class Classifieds {
         return this.backpacktf.__request(
             'post',
             `/v2/classifieds/listings/${listingID}/demote`
-        ) as Promise<BackpackTF.Classifieds.v2Listing>;
+        ) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
     }
 }

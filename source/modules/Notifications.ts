@@ -1,5 +1,4 @@
 import BackpackTF from '../index';
-
 export default class Notifications {
     private readonly backpacktf: BackpackTF;
     constructor(bp: BackpackTF) {
