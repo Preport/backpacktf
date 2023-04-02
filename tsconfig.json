@@ -1,21 +1,21 @@
 {
-    "compilerOptions": {
-        "target": "ES2019",
-        "module": "CommonJS",
-        "allowJs": false,
-        "checkJs": false,
-        "outDir": "./dist/",
-        "rootDir": "./source/",
-        "removeComments": false,
-        "declaration": true,
-        "sourceMap": true,
-        "strict": true,
-        "noImplicitAny": false,
-        "strictNullChecks": false,
-        "typeRoots": ["./node_modules/@types"],
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "resolveJsonModule": true
-    },
-    "exclude": ["./source/__tests__", "./dist"]
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "CommonJS",
+    "allowJs": false,
+    "checkJs": false,
+    "outDir": "./dist/",
+    "rootDir": "./source/",
+    "removeComments": false,
+    "declaration": true,
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "typeRoots": ["./node_modules/@types"],
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "exclude": ["./source/__tests__", "./dist"]
 }

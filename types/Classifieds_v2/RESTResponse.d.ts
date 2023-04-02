@@ -1,17 +1,17 @@
 import { v2Listing } from './Listing';
 
 export interface DeleteListingsResponse {
-    deleted: number;
+  deleted: number;
 }
 export interface GetBatchResponse {
-    opLimit: number;
+  opLimit: number;
 }
 export interface GetListingsResponse {
-    results?: v2Listing[];
-    cursor: {
-        skip: number;
-        limit: number;
-        total: number;
-        _info: any;
-    };
+  results?: v2Listing[];
+  cursor: {
+    skip: number;
+    limit: number;
+    total: number;
+    _info: any;
+  };
 }
