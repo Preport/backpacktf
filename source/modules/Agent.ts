@@ -1,3 +1,4 @@
+import { AgentPulseResponse, OnlyStatus } from '../../types';
 import BackpackTF from '../index';
 
 export default class Agent {
@@ -6,22 +7,22 @@ export default class Agent {
     this.backpacktf = bp;
   }
   /**
-   * @returns Promise<Agent.PulseResponse>
+   * @returns Promise<AgentPulseResponse>
    */
   pulse() {
-    return this.backpacktf.__request('post', `/agent/pulse`) as Promise<BackpackTF.Agent.PulseResponse>;
+    return this.backpacktf.__request('post', `/agent/pulse`) as Promise<AgentPulseResponse>;
   }
 
   /**
-   * @returns Promise<Agent.OnlyStatus>
+   * @returns Promise<OnlyStatus>
    */
   stop() {
-    return this.backpacktf.__request('post', `/agent/stop`) as Promise<BackpackTF.Agent.OnlyStatus>;
+    return this.backpacktf.__request('post', `/agent/stop`) as Promise<OnlyStatus>;
   }
   /**
-   * @returns Promise<Agent.PulseResponse>
+   * @returns Promise<AgentPulseResponse>
    */
   status() {
-    return this.backpacktf.__request('post', `/agent/status`) as Promise<BackpackTF.Agent.PulseResponse>;
+    return this.backpacktf.__request('post', `/agent/status`) as Promise<AgentPulseResponse>;
   }
 }

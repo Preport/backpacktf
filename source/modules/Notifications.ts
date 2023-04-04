@@ -1,3 +1,4 @@
+import { Notification, NotificationMarkResponse, NotificationResponse } from '../../types';
 import BackpackTF from '../index';
 export default class Notifications {
   private readonly backpacktf: BackpackTF;
@@ -6,22 +7,22 @@ export default class Notifications {
   }
   /**
    * @param {string} id ID of the notification to get.
-   * @returns Promise<BackpackTF.Notifications.Notification>
+   * @returns Promise<Notification>
    */
   getNotification(id: string) {
-    return this.backpacktf.__request('get', `/notifications/${id}`) as Promise<BackpackTF.Notifications.Notification>;
+    return this.backpacktf.__request('get', `/notifications/${id}`) as Promise<Notification>;
   }
   /**
    * @param skip An integer amount of alerts to skip.
    * @param limit An integer limit the amount of alerts returned. Default `100`
    * @param unread Optional: Any non 0 number to get only unread Notifications.
-   * @returns Promise<BackpackTF.Notifications.Response>
+   * @returns Promise<NotificationMarkResponse>
    */
   getNotifications(skip?: number, limit?: number, unread?: number) {
     return this.backpacktf.__request(
       'get',
       `/notifications?skip=${skip || 0}&limit=${limit || 100}&unread=${unread || 0}`
-    ) as Promise<BackpackTF.Notifications.Response>;
+    ) as Promise<NotificationResponse>;
   }
   /**
    * @deprecated End-point currently does not work.
@@ -33,17 +34,15 @@ export default class Notifications {
   }
 
   /**
-   * @returns Promise<BackpackTF.Notifications.Notification[]>
+   * @returns Promise<Notification[]>
    */
   unreadNotifications() {
-    return this.backpacktf.__request('post', `/notifications/unread`) as Promise<
-      BackpackTF.Notifications.Notification[]
-    >;
+    return this.backpacktf.__request('post', `/notifications/unread`) as Promise<Notification[]>;
   }
   /**
-   * @returns Promise<BackpackTF.Notifications.MarkResponse>
+   * @returns Promise<NotificationMarkResponse>
    */
   markNotifications() {
-    return this.backpacktf.__request('post', `/notifications/mark`) as Promise<BackpackTF.Notifications.MarkResponse>;
+    return this.backpacktf.__request('post', `/notifications/mark`) as Promise<NotificationMarkResponse>;
   }
 }

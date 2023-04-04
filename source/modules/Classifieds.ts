@@ -2,6 +2,16 @@ import BackpackTF from '../index';
 import sku from '@tf2autobot/tf2-sku';
 import schema from '@tf2autobot/tf2-schema';
 import { Killstreak, Sheen, Paints } from './Enums';
+import {
+  DeleteListingsResponse,
+  GetBatchResponse,
+  GetListingsResponse,
+  Snapshot,
+  classifiedApiResponse,
+  v2CreateBuyListing,
+  v2CreateSellListing,
+  v2Listing
+} from '../../types';
 
 export default class Classifieds {
   private readonly backpacktf: BackpackTF;
@@ -57,47 +67,44 @@ export default class Classifieds {
       currencies: price,
       details,
       item
-    } as BackpackTF.Classifiedsv2.v2CreateBuyListing;
+    } as v2CreateBuyListing;
   }
 
   /**
    * Search classifieds
    * @param query part after the ?
-   * @returns Promise<BackpackTF.classifiedApiResponse>
+   * @returns Promise<classifiedApiResponse>
    */
   search(query: string) {
-    return this.backpacktf.__request(
-      'get',
-      `/classifieds/search/v1?` + query
-    ) as Promise<BackpackTF.Classifiedsv1.classifiedApiResponse>;
+    return this.backpacktf.__request('get', `/classifieds/search/v1?` + query) as Promise<classifiedApiResponse>;
   }
 
   /**
    * Get an array of relevant listings for an item SKU
-   * @returns Promise<BackpackTF.Classifieds.Snapshot>
+   * @returns Promise<Snapshot>
    */
   getSnapshot(itemName: string) {
     return this.backpacktf.__request(
       'get',
       `classifieds/listings/snapshot?appid=440&sku=${encodeURIComponent(itemName)}`
-    ) as Promise<BackpackTF.Classifiedsv1.Snapshot>;
+    ) as Promise<Snapshot>;
   }
 
   /**
    * Get account archived listings
-   * @returns Promise<BackpackTF.Classifieds.GetListingsResponse>
+   * @returns Promise<GetListingsResponse>
    */
   getArchive(skip?: number, limit?: number) {
     return this.backpacktf.__request(
       'get',
       `/v2/classifieds/archive?skip=${skip || 0}&limit=${limit || 100}`
-    ) as Promise<BackpackTF.Classifiedsv2.GetListingsResponse>;
+    ) as Promise<GetListingsResponse>;
   }
 
   /**
    * Delete all archived listings
    * @param intent specify an intent to delete only sell/buy listings
-   * @returns Promise<BackpackTF.Classifieds.DeleteArchiveResponse>
+   * @returns Promise<DeleteArchiveResponse>
    */
   deleteArchive(intent?: 'buy' | 'sell') {
     return this.backpacktf.__request(
@@ -110,7 +117,7 @@ export default class Classifieds {
             }
           }
         : null
-    ) as Promise<BackpackTF.Classifiedsv2.DeleteListingsResponse>;
+    ) as Promise<DeleteListingsResponse>;
   }
 
   /**
@@ -118,10 +125,7 @@ export default class Classifieds {
    * @returns Promise<BackpackTF.Listing>
    */
   getArchivedListing(listingID: string) {
-    return this.backpacktf.__request(
-      'get',
-      `/v2/classifieds/archive/${listingID}`
-    ) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
+    return this.backpacktf.__request('get', `/v2/classifieds/archive/${listingID}`) as Promise<v2Listing>;
   }
 
   /**
@@ -136,7 +140,7 @@ export default class Classifieds {
    * Update one archived listing
    * @returns Promise<unknown>
    */
-  updateArchivedListing(listingID: string, data: Partial<BackpackTF.Classifiedsv2.v2CreateBuyListing>) {
+  updateArchivedListing(listingID: string, data: Partial<v2CreateBuyListing>) {
     return this.backpacktf.__request('patch', `/v2/classifieds/archive/${listingID}`, {
       json: data
     }) as Promise<unknown>;
@@ -146,46 +150,43 @@ export default class Classifieds {
    * An Alias for updateArchivedListing
    * @returns Promise<unknown>
    */
-  patchArchivedListing(listingID: string, data: Partial<BackpackTF.Classifiedsv2.v2CreateBuyListing>) {
+  patchArchivedListing(listingID: string, data: Partial<v2CreateBuyListing>) {
     return this.updateArchivedListing(listingID, data);
   }
 
   /**
    * Publish one archived listing to the active pool
-   * @returns Promise<BackpackTF.Classifieds.v2Listing>
+   * @returns Promise<v2Listing>
    */
   publishArchivedListing(listingID: string) {
-    return this.backpacktf.__request(
-      'post',
-      `/v2/classifieds/archive/${listingID}/publish`
-    ) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
+    return this.backpacktf.__request('post', `/v2/classifieds/archive/${listingID}/publish`) as Promise<v2Listing>;
   }
 
   /**
    * Get account listings
-   * @returns Promise<BackpackTF.Classifieds.GetListingsResponse>
+   * @returns Promise<GetListingsResponse>
    */
   getListings(skip?: number, limit?: number) {
     return this.backpacktf.__request(
       'get',
       `/v2/classifieds/listings?skip=${skip || 0}&limit=${limit || 100}`
-    ) as Promise<BackpackTF.Classifiedsv2.GetListingsResponse>;
+    ) as Promise<GetListingsResponse>;
   }
 
   /**
    * Create one listing
-   * @returns Promise<BackpackTF.Classifieds.v2Listing>
+   * @returns Promise<v2Listing>
    */
-  createListing(data: BackpackTF.Classifiedsv2.v2CreateBuyListing | BackpackTF.Classifiedsv2.v2CreateSellListing) {
+  createListing(data: v2CreateBuyListing | v2CreateSellListing) {
     return this.backpacktf.__request('post', `/v2/classifieds/listings`, {
       json: data
-    }) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
+    }) as Promise<v2Listing>;
   }
 
   /**
    * Delete all listings
    * @param intent specify an intent to delete only sell/buy listings
-   * @returns Promise<BackpackTF.Classifieds.Snapshot>
+   * @returns Promise<DeleteListingsResponse>
    */
   deleteListings(intent?: 'buy' | 'sell') {
     return this.backpacktf.__request(
@@ -198,40 +199,32 @@ export default class Classifieds {
             }
           }
         : null
-    ) as Promise<BackpackTF.Classifiedsv2.DeleteListingsResponse>;
+    ) as Promise<DeleteListingsResponse>;
   }
 
   /**
    * Get batch operation limit
-   * @returns Promise<BackpackTF.Classifieds.GetBatchResponse>
+   * @returns Promise<GetBatchResponse>
    */
   getBatch() {
-    return this.backpacktf.__request(
-      'get',
-      '/v2/classifieds/listings/batch'
-    ) as Promise<BackpackTF.Classifiedsv2.GetBatchResponse>;
+    return this.backpacktf.__request('get', '/v2/classifieds/listings/batch') as Promise<GetBatchResponse>;
   }
 
   /**
    * Batch create listings
-   * @returns Promise<BackpackTF.Classifieds.v2Listing[]>
+   * @returns Promise<v2Listing[]>
    */
-  createBatchListings(
-    listings: (BackpackTF.Classifiedsv2.v2CreateBuyListing | BackpackTF.Classifiedsv2.v2CreateSellListing)[]
-  ) {
+  createBatchListings(listings: (v2CreateBuyListing | v2CreateSellListing)[]) {
     return this.backpacktf.__request('post', '/v2/classifieds/listings/batch', {
       json: listings
-    }) as Promise<BackpackTF.Classifiedsv2.v2Listing[]>;
+    }) as Promise<v2Listing[]>;
   }
 
   /**
    * Get one listing
    */
   getListing(listingID: string) {
-    return this.backpacktf.__request(
-      'get',
-      `/v2/classifieds/listings/${listingID}`
-    ) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
+    return this.backpacktf.__request('get', `/v2/classifieds/listings/${listingID}`) as Promise<v2Listing>;
   }
 
   /**
@@ -244,52 +237,43 @@ export default class Classifieds {
 
   /**
    * Update one listing
-   * @returns Promise<unknown>
+   * @returns Promise<v2Listing>
    */
-  updateListing(listingID: string, data: Partial<BackpackTF.Classifiedsv2.v2CreateBuyListing>) {
+  updateListing(listingID: string, data: Partial<v2CreateBuyListing>) {
     return this.backpacktf.__request('patch', `/v2/classifieds/listings/${listingID}`, {
       json: data
-    }) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
+    }) as Promise<v2Listing>;
   }
 
   /**
    * An Alias for updateListing
-   * @returns Promise<unknown>
+   * @returns Promise<v2Listing>
    */
-  patchListing(listingID: string, data: Partial<BackpackTF.Classifiedsv2.v2CreateBuyListing>) {
-    return this.updateListing(listingID, data) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
+  patchListing(listingID: string, data: Partial<v2CreateBuyListing>) {
+    return this.updateListing(listingID, data) as Promise<v2Listing>;
   }
 
   /**
    * Move Listing to the archive
-   * @returns Promise<BackpackTF.Classifieds.v2Listing>
+   * @returns Promise<v2Listing>
    */
   archiveListing(listingID: string) {
-    return this.backpacktf.__request(
-      'post',
-      `/v2/classifieds/listings/${listingID}/archive`
-    ) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
+    return this.backpacktf.__request('post', `/v2/classifieds/listings/${listingID}/archive`) as Promise<v2Listing>;
   }
 
   /**
    * Promote this listing
-   * @returns Promise<BackpackTF.Classifieds.v2Listing>
+   * @returns Promise<v2Listing>
    */
   promoteListing(listingID: string) {
-    return this.backpacktf.__request(
-      'post',
-      `/v2/classifieds/listings/${listingID}/promote`
-    ) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
+    return this.backpacktf.__request('post', `/v2/classifieds/listings/${listingID}/promote`) as Promise<v2Listing>;
   }
 
   /**
    * Demote this listing
-   * @returns Promise<BackpackTF.Classifieds.v2Listing>
+   * @returns Promise<v2Listing>
    */
   demoteListing(listingID: string) {
-    return this.backpacktf.__request(
-      'post',
-      `/v2/classifieds/listings/${listingID}/demote`
-    ) as Promise<BackpackTF.Classifiedsv2.v2Listing>;
+    return this.backpacktf.__request('post', `/v2/classifieds/listings/${listingID}/demote`) as Promise<v2Listing>;
   }
 }

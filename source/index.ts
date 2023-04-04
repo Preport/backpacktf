@@ -8,10 +8,11 @@ import Notifications from './modules/Notifications';
 import Inventory from './modules/Inventory';
 import WebAPIUsers from './modules/WebAPIUsers';
 import Classifieds from './modules/Classifieds';
+import { StatusResponse } from '../types';
 
 const backpack = 'https://backpack.tf/api/oauth';
 
-class BackpackTF extends EventEmitter {
+export default class BackpackTF extends EventEmitter {
   private token: AccessToken;
   private client: oauth.ClientCredentials;
 
@@ -64,7 +65,7 @@ class BackpackTF extends EventEmitter {
   }
 
   getStatus() {
-    return this.__request('get', '/') as Promise<BackpackTF.StatusResponse>;
+    return this.__request('get', '/') as Promise<StatusResponse>;
   }
   async __request(
     type: 'post' | 'get' | 'delete' | 'patch',
@@ -101,39 +102,3 @@ class BackpackTF extends EventEmitter {
     );
   }
 }
-
-import { Inventory as _Inventory } from '../types/Inventory';
-import { Alerts as _Alerts } from '../types/Alerts';
-import { Notifications as _Notifications } from '../types/Notifications';
-import { WebAPIUsers as _WebAPIUsers } from '../types/WebAPIUsers';
-import { Classifiedsv2 as _Classifiedsv2 } from '../types/Classifiedsv2';
-import { Classifiedsv1 as _Classifiedsv1 } from '../types/Classifiedsv1';
-import { Agent as _Agent } from '../types/Agent';
-namespace BackpackTF {
-  export interface StatusResponse {
-    user: {
-      id: string;
-      name: string;
-      avatar: string;
-      class: string;
-      style: string;
-      premium: boolean;
-      online: boolean;
-    };
-    authMethod: 'token' | 'oauth' | 'session';
-    description: [string];
-    authMethods: {
-      [key in StatusResponse['authMethod']]: {
-        desription: string;
-      };
-    };
-  }
-  export import Inventory = _Inventory;
-  export import Notifications = _Notifications;
-  export import WebAPIUsers = _WebAPIUsers;
-  export import Alerts = _Alerts;
-  export import Agent = _Agent;
-  export import Classifiedsv2 = _Classifiedsv2;
-  export import Classifiedsv1 = _Classifiedsv1;
-}
-export default BackpackTF;

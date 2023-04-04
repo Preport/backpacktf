@@ -1,3 +1,4 @@
+import { ImpersonatedResponse, UserResponse } from '../../types';
 import BackpackTF from '../index';
 
 export default class WebAPIUsers {
@@ -7,7 +8,7 @@ export default class WebAPIUsers {
   }
   /**
    * @param steamID64s Array of steamids
-   * @returns Promise<WebAPIUsers.UserResponse>
+   * @returns Promise<UserResponse>
    */
   getUsers(steamID64s: string[]) {
     return this.backpacktf.__request(
@@ -15,12 +16,12 @@ export default class WebAPIUsers {
       '/IGetUsers/v3?steamid=' + steamID64s.join(','),
       null,
       true
-    ) as Promise<BackpackTF.WebAPIUsers.UserResponse>;
+    ) as Promise<UserResponse>;
   }
   /**
    * @param skip An integer amount of users to skip.
    * @param limit An integer limit the amount of users returned. Default `100`
-   * @returns Promise<WebAPIUsers.ImpersonatedResponse>
+   * @returns Promise<ImpersonatedResponse>
    */
   getImpersonatedUsers(skip?: number, limit?: number) {
     return this.backpacktf.__request(
@@ -28,6 +29,6 @@ export default class WebAPIUsers {
       `/IGetUsers/GetImpersonatedUsers?limit=${limit || 0}&skip=${skip || 0}`,
       null,
       true
-    ) as Promise<BackpackTF.WebAPIUsers.ImpersonatedResponse>;
+    ) as Promise<ImpersonatedResponse>;
   }
 }

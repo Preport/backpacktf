@@ -1,3 +1,4 @@
+import { Alert, AlertCreate, AlertResponse } from '../../types';
 import BackpackTF from '../index';
 
 export default class Alerts {
@@ -7,10 +8,10 @@ export default class Alerts {
   }
   /**
    * @param {string} id ID of the alert to get.
-   * @returns Promise<Alerts.Alert>
+   * @returns Promise<Alert>
    */
   getAlert(id: string) {
-    return this.backpacktf.__request('get', `/classifieds/alerts/${id}`) as Promise<BackpackTF.Alerts.Alert>;
+    return this.backpacktf.__request('get', `/classifieds/alerts/${id}`) as Promise<Alert>;
   }
 
   /**
@@ -33,25 +34,25 @@ export default class Alerts {
   /**
    * @param skip An integer amount of alerts to skip.
    * @param limit An integer limit the amount of alerts returned. Default `500`
-   * @returns Promise<Alerts.AlertResponse>
+   * @returns Promise<AlertResponse>
    */
   getAlerts(skip?: number, limit?: number) {
     return this.backpacktf.__request(
       'get',
       `/classifieds/alerts?skip=${skip || 0}&limit=${limit || 500}`
-    ) as Promise<BackpackTF.Alerts.Response>;
+    ) as Promise<AlertResponse>;
   }
 
   /**
    * @param alert Alert to create.
-   * @returns Promise<Alerts.Alert>
+   * @returns Promise<Alert>
    */
-  createAlert(alert: BackpackTF.Alerts.Create) {
+  createAlert(alert: AlertCreate) {
     return this.backpacktf.__request(
       'post',
       `/classifieds/alerts?${Object.keys(alert)
         .map(prop => prop + '=' + alert[prop])
         .join('&')}`
-    ) as Promise<BackpackTF.Alerts.Alert>;
+    ) as Promise<Alert>;
   }
 }
