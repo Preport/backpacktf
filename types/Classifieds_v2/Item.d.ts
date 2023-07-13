@@ -9,7 +9,8 @@ import {
   Slot,
   Spell,
   WearTier,
-  StrangePart as BaseStrangePart
+  StrangePart as BaseStrangePart,
+  Killstreaker
 } from './exported/Item';
 import { Price } from './Price';
 
@@ -51,6 +52,7 @@ export interface v2Item {
   medalNumber?: any;
   priceindex?: string;
   killstreakTier?: KillstreakTier;
+  killstreaker?: Killstreaker;
   level?: number;
   killEaters?: KillEater[];
   style?: Style;
